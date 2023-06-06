@@ -1,8 +1,7 @@
 /* eslint-disable linebreak-style */
-
-const ClientError = require('../../excepetions/ClientError');
-
 /* eslint-disable no-underscore-dangle */
+const ClientError = require('../../exceptions/ClientError');
+
 class NotesHandler {
   constructor(service, validator) {
     this._service = service;
@@ -17,7 +16,7 @@ class NotesHandler {
 
   postNoteHandler(request, h) {
     try {
-      this.validator.validateNotePayload(request.payload);
+      this._validator.validateNotePayload(request.payload);
       const { title = 'untitled', body, tags } = request.payload;
 
       const noteId = this._service.addNote({ title, body, tags });
@@ -114,7 +113,7 @@ class NotesHandler {
         return response;
       }
 
-      // Server ERROR
+      // Server ERROR!
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
@@ -129,6 +128,7 @@ class NotesHandler {
     try {
       const { id } = request.params;
       this._service.deleteNoteById(id);
+
       return {
         status: 'success',
         message: 'Catatan berhasil dihapus',
@@ -143,7 +143,7 @@ class NotesHandler {
         return response;
       }
 
-      // Server ERRor
+      // Server ERROR!
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
